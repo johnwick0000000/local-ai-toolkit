@@ -1,0 +1,103 @@
+---
+services:
+  postgres:
+    restart: unless-stopped
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./config/init_db.sh:/docker-entrypoint-initdb.d/init_db.sh
+    ports:
+      - "5432:5432"
+    networks:
+      - ai-toolkit
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '1'
+
+  litellm:
+    restart: unless-stopped
+    image: docker.litellm.ai/berriai/litellm:main-stable
+    container_name: litellm
+    depends_on:
+      - postgres
+    ports:
+      - "4000:4000"
+    environment:
+      - LITELLM_MASTER_KEY=${LITELLM_MASTER_KEY}
+      - LITELLM_SALT_KEY=${LITELLM_SALT_KEY}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/litellm
+    volumes:
+      - ./config/litellm_config.yaml:/app/config.yaml
+    command: --config /app/config.yaml --detailed_debug
+    networks:
+      - ai-toolkit
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '1'
+
+  n8n:
+    restart: unless-stopped
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    depends_on:
+      - postgres
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=${TZ}
+      - TZ=${TZ}
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_SECURE_COOKIE=false
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_SCHEMA=public
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - n8n-data:/home/node/.n8n
+    networks:
+      - ai-toolkit
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '1'
+
+  openwebui:
+    restart: unless-stopped
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
+    ports:
+      - "3000:8080"
+    volumes:
+      - openwebui-data:/app/backend/data
+    networks:
+      - ai-toolkit
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '5m'
+        max-file: '1'
+
+networks:
+  ai-toolkit:
+    external: true
+
+volumes:
+  postgres-data:
+  n8n-data:
+  openwebui-data:
