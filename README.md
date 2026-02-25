@@ -18,9 +18,9 @@ All free [Ollama Cloud](https://ollama.com) models are pre-configured out of the
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
-- A Docker network named `local` — used so all containers can communicate with each other simply by container name (e.g. `http://litellm:4000`):
+- A Docker network named `ai-toolkit` — used so all containers can communicate with each other simply by container name (e.g. `http://litellm:4000`):
   ```bash
-  docker network create local
+  docker network create ai-toolkit
   ```
 
 ## Quick Start
@@ -44,7 +44,7 @@ All free [Ollama Cloud](https://ollama.com) models are pre-configured out of the
    OLLAMA_API_KEY=<your_ollama_api_key>
 
    # General
-   TZ=Africa/Tunis
+   TZ=<YOUR_TIMEZONE>
    ```
 
 3. **Configure LiteLLM models**
